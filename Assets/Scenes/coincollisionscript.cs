@@ -7,7 +7,16 @@ public class coincollisionscript : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     int score = 0;
-    public TextMeshProUGUI scoreText;
+
+    bool isMenuShowing = false;
+    public UIManager MyUIManager;
+    void OnMenu()
+    {
+        MyUIManager.ShowMenu(isMenuShowing);
+        isMenuShowing = !isMenuShowing;
+    }
+    
+
     [SerializeField]
     Image coinTrackingIcon;
     [SerializeField]
@@ -16,7 +25,6 @@ public class coincollisionscript : MonoBehaviour
     int currentCoinCount = 0;
     void Start()
     {
-        scoreText.text = "Score: " + score.ToString();
         coinTrackingIcon.sprite = coinTrackingSprites[currentCoinCount];
     }
 
@@ -24,7 +32,8 @@ public class coincollisionscript : MonoBehaviour
     {
         //ncrease current Score by the amount passed as an argument
         score += amount;
-        scoreText.text = "Score: " + score.ToString();
+        MyUIManager.SetScore(score);
+
 
     }
     void OnCollisionEnter(Collision collision)
