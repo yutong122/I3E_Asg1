@@ -10,6 +10,86 @@ using UnityEngine.UI;
 
 public class PlayerCollisionScript : MonoBehaviour
 {
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    int score = 0;
+    public int collectibleCount = 0;
+    public TextMeshProUGUI scoreText;
+    GameObject currentCollider;
+    public UIManager MyUIManager;
+    void OnCollisionEnter(Collision collision)
+    {
+        currentCollider = collision.gameObject;
+        Debug.Log("Collided with " + currentCollider.name);
+    }
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject == currentCollider)
+        {
+            currentCollider = null;
+        }
+    }
+    public void ModifyScore(int amount)
+    {
+        //Increase current Score by the amount passed as an argument
+        score += amount;
+        MyUIManager.SetScore(score);
+    }
+    void OnInteract(InputValue value)
+    {
+        if (currentCollider != null)
+        {
+            if (currentCollider == null)
+            {
+                return;
+            }
+            print($"Interacting with a{currentCollider.name}");
+            var collectibles = currentCollider.GetComponent<Collectibles>();
+            if (collectibles != null)
+            {
+                print($"Interacting with a Collectible {currentCollider.name}");
+                ModifyScore(collectibles.score);
+                collectibles.Collect();
+
+                collectibleCount++;
+                MyUIManager.SetCollectibles(collectibleCount);
+                Debug.Log("Collectibles Collected: " + collectibleCount);
+                currentCollider = null;
+                return;
+            }
+        }
+        var door = currentCollider.GetComponentInParent<Door>();
+
+        if (door != null)
+        {
+            Debug.Log("Interacting with Door");
+            door.Interact(collectibleCount);
+            return;
+        }
+
+        Debug.Log("Interacting with " + currentCollider.name);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+using UnityEngine;
+using UnityEngine.InputSystem;
+using TMPro;
+using UnityEngine.UI;
+
+public class PlayerCollisionScript : MonoBehaviour
+{
     /// <summary>
     /// The starting score of the player
     /// </summary>
@@ -19,7 +99,6 @@ public class PlayerCollisionScript : MonoBehaviour
     /// The number of collectibles collected by the player.
     /// </summary>
     public int collectibleCount = 0;
-
     bool isMenuShowing = false;
     public UIManager MyUIManager;
     void OnMenu()
@@ -31,25 +110,35 @@ public class PlayerCollisionScript : MonoBehaviour
     /// Adds score and increases collectible count.
     /// </summary>
     /// <param name="amount">The score amount to add.</param>
+
     public void ModifyScore(int amount)
     {
         //Increase current Score by the amount passed as an argument
         score += amount;
-        collectibleCount++;
         MyUIManager.SetScore(score);
-        MyUIManager.SetCollectibles(collectibleCount);
+
+
     }
-/*
-    void OnCollisionEnter(Collision collision)
+
+void OnCollisionEnter(Collision collision)
     {
         currentCollider = collision.gameObject;
-        print($"Collided with {currentCollider.name}");
+
+        Debug.Log("Collided with " + currentCollider.name);
+
+        Collectibles collectible = currentCollider.GetComponent<Collectibles>();
+
+        if (collectible != null)
+        {
+            Debug.Log("This is a collectible. Press E to collect it.");
+        }
     }
+
     void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "coin")
+        if (collision.gameObject == currentCollider)
         {
-            print($"Stopped colliding with {currentCollider.name}");
+            Debug.Log("Stopped colliding with " + currentCollider.name);
             currentCollider = null;
         }
     }
@@ -59,12 +148,10 @@ public class PlayerCollisionScript : MonoBehaviour
     {
         if (currentCollider != null)
         {
-            print($"Interacting with a{currentCollider.name}");
-
             var collectible = currentCollider.GetComponent<Collectible>();
             if (collectible != null)
             {
-                print($"Interacting with a Collectible {currentCollider.name}");
+                Debug.Log($"Interacting with " + currentCollider.name);
                 ModifyScore(collectible.score);
                 collectible.Collect();
 
@@ -98,4 +185,4 @@ public class PlayerCollisionScript : MonoBehaviour
         }
     }
     */
-}
+

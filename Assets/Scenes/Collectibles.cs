@@ -12,29 +12,17 @@ public class Collectibles : MonoBehaviour
     public int score = 1;
 
     /// Detects when the player touches the collectible using Unity Physics.
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            PlayerCollisionScript player = other.GetComponent<PlayerCollisionScript>();
-            if (player != null)
-            {
-                player.ModifyScore(score);
-            }
-            Debug.Log("Collected! Score:"+ score);
-            Collect();
-        }
-    }
+
     /// Plays sound, hides the collectible, disables its collider, and destroys it.
     public void Collect()
     {
-        //Play the coin collect sound
+        //Play the collect sound
         var audio = GetComponent<AudioSource>();
         audio.Play();
-        //Hide the coin
+        //Hide the collectibles
         var renderer = GetComponent<MeshRenderer>();
         renderer.enabled = false;
-        //Destroy the coin after 1 second
+        //Destroy the collectible after 1 second
         Destroy(gameObject, 1);
     }
 }
