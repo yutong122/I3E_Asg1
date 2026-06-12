@@ -16,6 +16,15 @@ public class PlayerCollisionScript : MonoBehaviour
     public TextMeshProUGUI scoreText;
     GameObject currentCollider;
     public UIManager MyUIManager;
+    /// <summary>
+    /// Number of collectibles needed before showing the unlock message.
+    /// </summary>
+    public int firstDoorRequiredCollectibles = 1;
+    /// <summary>
+    /// Checks if the unlock message has already been shown.
+    /// </summary>
+    bool unlockMessageShown = false;
+
     void OnCollisionEnter(Collision collision)
     {
         currentCollider = collision.gameObject;
@@ -53,6 +62,11 @@ public class PlayerCollisionScript : MonoBehaviour
                 collectibleCount++;
                 MyUIManager.SetCollectibles(collectibleCount);
                 Debug.Log("Collectibles Collected: " + collectibleCount);
+                if (collectibleCount >= firstDoorRequiredCollectibles && unlockMessageShown == false)
+                {
+                    MyUIManager.ShowUnlockDoorMessage();
+                    unlockMessageShown = true;
+                }
                 currentCollider = null;
                 return;
             }
@@ -62,10 +76,16 @@ public class PlayerCollisionScript : MonoBehaviour
         if (door != null)
         {
             Debug.Log("Interacting with Door");
-            door.Interact(collectibleCount);
+            if (collectibleCount < door.requiredCollectibles)
+            {
+                MyUIManager.ShowLockedDoorMessage();
+            }
+            else
+            {
+                door.Interact(collectibleCount);
+            }
             return;
         }
-
         Debug.Log("Interacting with " + currentCollider.name);
     }
 }

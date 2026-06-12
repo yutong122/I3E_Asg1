@@ -10,10 +10,6 @@ public class UIManager : MonoBehaviour
     public TMP_Text LockedDoorText;
     public TMP_Text UnlockDoorText;
 
-    public GameObject Menupanel;
-    /// <summary>
-    /// Shows the locked door message for a short time.
-    /// </summary>
     public void ShowLockedDoorMessage()
     {
         LockedDoorText.gameObject.SetActive(true);
@@ -47,6 +43,8 @@ public class UIManager : MonoBehaviour
     {
         ScoreText.text = "Score: 0";
         CollectiblesText.text = "Collectibles Collected: 0/20";
+        LockedDoorText.gameObject.SetActive(false);
+        UnlockDoorText.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -71,16 +69,4 @@ public class UIManager : MonoBehaviour
         collectibles = newCollectibles;
     }
 
-    public void ShowMenu(bool isVisible)
-    {
-        Menupanel.SetActive(isVisible);
-        Cursor.lockState = isVisible ?
-            CursorLockMode.None :
-            CursorLockMode.Locked;
-    }
-    public void ShowMessage(string message)
-    {
-        LockedDoorText.text = message;
-        UnlockDoorText.text = message;
-    }
 }

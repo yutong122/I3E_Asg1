@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 178dcf121f95dde4d9ef4c028296dd97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectibles
-  score: 1
+  score: 2
 --- !u!65 &-8940610447830586678
 BoxCollider:
   m_ObjectHideFlags: 0
