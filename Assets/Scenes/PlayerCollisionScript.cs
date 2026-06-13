@@ -6,7 +6,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
-using UnityEngine.UI;
 
 public class PlayerCollisionScript : MonoBehaviour
 {
@@ -19,11 +18,16 @@ public class PlayerCollisionScript : MonoBehaviour
     /// <summary>
     /// Number of collectibles needed before showing the unlock message.
     /// </summary>
-    public int firstDoorRequiredCollectibles = 1;
+    public int firstDoorRequiredCollectibles = 8;
+    /// <summary>
+    /// Number of collectibles needed before showing the final door unlock message.
+    /// </summary>
+    public int finalDoorRequiredCollectibles = 15;
     /// <summary>
     /// Checks if the unlock message has already been shown.
     /// </summary>
     bool unlockMessageShown = false;
+    bool finalDoorMessageShown = false;
 
     void OnCollisionEnter(Collision collision)
     {
@@ -67,6 +71,11 @@ public class PlayerCollisionScript : MonoBehaviour
                     MyUIManager.ShowUnlockDoorMessage();
                     unlockMessageShown = true;
                 }
+                if (collectibleCount >= finalDoorRequiredCollectibles && finalDoorMessageShown == false)
+                {
+                    MyUIManager.ShowCongratsMessage();
+                    finalDoorMessageShown = true;
+                }
                 currentCollider = null;
                 return;
             }
@@ -88,121 +97,19 @@ public class PlayerCollisionScript : MonoBehaviour
         }
         Debug.Log("Interacting with " + currentCollider.name);
     }
+    public int GetScore()
+    {
+        return score;
+    }
+
+    /// <summary>
+    /// Gets the number of collectibles collected by the player.
+    /// </summary>
+    /// <returns>The number of collectibles collected.</returns>
+    public int GetCollectibleCount()
+    {
+        return collectibleCount;
+    }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-using UnityEngine;
-using UnityEngine.InputSystem;
-using TMPro;
-using UnityEngine.UI;
-
-public class PlayerCollisionScript : MonoBehaviour
-{
-    /// <summary>
-    /// The starting score of the player
-    /// </summary>
-    public int score = 0;
-
-    /// <summary>
-    /// The number of collectibles collected by the player.
-    /// </summary>
-    public int collectibleCount = 0;
-    bool isMenuShowing = false;
-    public UIManager MyUIManager;
-    void OnMenu()
-    {
-        MyUIManager.ShowMenu(isMenuShowing);
-        isMenuShowing = !isMenuShowing;
-    }
-    /// <summary>
-    /// Adds score and increases collectible count.
-    /// </summary>
-    /// <param name="amount">The score amount to add.</param>
-
-    public void ModifyScore(int amount)
-    {
-        //Increase current Score by the amount passed as an argument
-        score += amount;
-        MyUIManager.SetScore(score);
-
-
-    }
-
-void OnCollisionEnter(Collision collision)
-    {
-        currentCollider = collision.gameObject;
-
-        Debug.Log("Collided with " + currentCollider.name);
-
-        Collectibles collectible = currentCollider.GetComponent<Collectibles>();
-
-        if (collectible != null)
-        {
-            Debug.Log("This is a collectible. Press E to collect it.");
-        }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject == currentCollider)
-        {
-            Debug.Log("Stopped colliding with " + currentCollider.name);
-            currentCollider = null;
-        }
-    }
-
-
-    void OnInteract(InputValue value)
-    {
-        if (currentCollider != null)
-        {
-            var collectible = currentCollider.GetComponent<Collectible>();
-            if (collectible != null)
-            {
-                Debug.Log($"Interacting with " + currentCollider.name);
-                ModifyScore(collectible.score);
-                collectible.Collect();
-
-                currentCoinCount++;
-                //Update the coin tracking icon
-                if (currentCoinCount >= coinTrackingSprites.Length)
-                {
-                    currentCoinCount = coinTrackingSprites.Length - 1;
-                }
-                coinTrackingIcon.sprite = coinTrackingSprites[currentCoinCount];
-            }
-        }
-        var door = currentCollider.GetComponent<Door>();
-        if (door != null)
-        {
-            print($"Interacting with Door {currentCollider.name}");
-            door.Interact();
-        }
-
-    }
-    /// <summary>
-    /// Triggers when the player touches the finish platform  
-    /// </summary>
-    /// <param name="other"></param> Other object that the player collides with
-    void OnTriggerEnter(Collider other)
-    {
-        if (score == 17)
-        {
-            print("Congrats!");
-            print($"Final Score:{score}");
-        }
-    }
-    */
 

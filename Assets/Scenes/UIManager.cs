@@ -9,11 +9,13 @@ public class UIManager : MonoBehaviour
     public TMP_Text CollectiblesText;
     public TMP_Text LockedDoorText;
     public TMP_Text UnlockDoorText;
+    public TMP_Text CongratsText;
 
     public void ShowLockedDoorMessage()
     {
         LockedDoorText.gameObject.SetActive(true);
         UnlockDoorText.gameObject.SetActive(false);
+        CongratsText.gameObject.SetActive(false);
 
         CancelInvoke("HideDoorMessages");
         Invoke("HideDoorMessages", 2f);
@@ -36,6 +38,19 @@ public class UIManager : MonoBehaviour
     {
         LockedDoorText.gameObject.SetActive(false);
         UnlockDoorText.gameObject.SetActive(false);
+        CongratsText.gameObject.SetActive(false);
+    }
+    /// <summary>
+    /// Shows the congratulation message when the player collects enough collectibles.
+    /// </summary>
+    public void ShowCongratsMessage()
+    {
+        LockedDoorText.gameObject.SetActive(false);
+        UnlockDoorText.gameObject.SetActive(false);
+        CongratsText.gameObject.SetActive(true);
+
+        CancelInvoke("HideDoorMessages");
+        Invoke("HideDoorMessages", 2f);
     }
 
 
@@ -45,6 +60,7 @@ public class UIManager : MonoBehaviour
         CollectiblesText.text = "Collectibles Collected: 0/20";
         LockedDoorText.gameObject.SetActive(false);
         UnlockDoorText.gameObject.SetActive(false);
+        CongratsText.gameObject.SetActive(false);
     }
 
     // Update is called once per frame

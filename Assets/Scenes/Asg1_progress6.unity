@@ -1365,8 +1365,8 @@ MonoBehaviour:
   collectibleCount: 0
   scoreText: {fileID: 0}
   MyUIManager: {fileID: 888293934}
-  firstDoorRequiredCollectibles: 8
-  finalDoorRequiredCollectibles: 15
+  firstDoorRequiredCollectibles: 1
+  finalDoorRequiredCollectibles: 2
 --- !u!114 &318962132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3893,7 +3893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf7230b20952b0443a3c725bf6a6b219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  requiredCollectibles: 8
+  requiredCollectibles: 1
   rotateAmount: {x: 0, y: 90, z: 0}
   doorBlocker: {fileID: 521713977}
 --- !u!82 &900860275
@@ -7994,10 +7994,6 @@ PrefabInstance:
     - target: {fileID: 2319950317817228267, guid: 6222da235ba170446ac8f074cc888bf6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6988131567974191708, guid: 6222da235ba170446ac8f074cc888bf6, type: 3}
-      propertyPath: requiredCollectibles
-      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7937954007753120955, guid: 6222da235ba170446ac8f074cc888bf6, type: 3}
       propertyPath: m_IsTrigger

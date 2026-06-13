@@ -51,6 +51,13 @@ public class Door : MonoBehaviour
         else
         {
             transform.Rotate(rotateAmount);
+            // Play the door opening sound.
+            AudioSource audio = GetComponent<AudioSource>();
+            if (audio != null)
+            {
+                audio.Play();
+            }
+
             // Turn the door collider off so the player can walk through
             if (doorBlocker != null)
             {

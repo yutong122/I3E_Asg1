@@ -22,6 +22,9 @@ public class Collectibles : MonoBehaviour
         //Hide the collectibles
         var renderer = GetComponent<MeshRenderer>();
         renderer.enabled = false;
+        // Disable the collider so the player cannot collect it again.
+        var collider = GetComponent<Collider>();
+        collider.enabled = false;
         //Destroy the collectible after 1 second
         Destroy(gameObject, 1);
     }
